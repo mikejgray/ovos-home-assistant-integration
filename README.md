@@ -34,15 +34,24 @@ Using your HA configuration directory (folder) as a starting point you should no
 ```text
 custom_components/ovos/translations/en.json
 custom_components/ovos/__init__.py
-custom_components/ovos/config_flow.py
 custom_components/ovos/const.py
 custom_components/ovos/manifest.json
 custom_components/ovos/notify.py
 ```
 
-## Configuration is done in the UI
+## Configuration
 
-<!---->
+In `configuration.yaml`:
+
+```yaml
+ovos:
+  host: 192.168.42.42 # Replace with your IP/hostname
+notify:
+  - platform: ovos
+    name: mark2 # Name it whatever you want
+```
+
+Then call `notify.mark2` with a message you'd like the OVOS/Neon.AI Voice Assistant to speak.
 
 ## Contributions are welcome!
 
