@@ -4,11 +4,12 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from ovos_bus_client import Message, MessageBusClient
-
 from homeassistant.components.notify import BaseNotificationService
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.typing import DiscoveryInfoType
+from ovos_bus_client import Message
+from ovos_bus_client import MessageBusClient
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -30,7 +31,9 @@ class OvosNotificationService(BaseNotificationService):
         self.ovos_ip = ovos_ip
         self.ovos_port = ovos_port
 
-    def send_message(self, message: str = "", lang: str = "en-us", **kwargs: Any) -> None:
+    def send_message(
+        self, message: str = "", lang: str = "en-us", **kwargs: Any
+    ) -> None:
         """Send a message to OVOS/Neon to speak on instance."""
         try:
             _LOGGER.log(level=3, msg=kwargs)
@@ -39,6 +42,8 @@ class OvosNotificationService(BaseNotificationService):
             client.emit(Message("speak", {"utterance": message, "lang": lang}))
             client.close()
         except ConnectionRefusedError:
-            _LOGGER.log(level=1, msg="Could not reach this instance of OVOS", exc_info=True)
+            _LOGGER.log(
+                level=1, msg="Could not reach this instance of OVOS", exc_info=True
+            )
         except ValueError:
             _LOGGER.log(level=1, msg="Error from OVOS messagebus", exc_info=True)

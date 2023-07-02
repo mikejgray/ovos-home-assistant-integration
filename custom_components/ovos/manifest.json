@@ -2,11 +2,11 @@
   "domain": "ovos",
   "name": "OVOS",
   "codeowners": ["@mikejgray"],
-  "config_flow": false,
+  "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/ovos",
   "integration_type": "device",
   "iot_class": "assumed_state",
   "loggers": ["ovos-bus-client"],
   "requirements": ["ovos-bus-client==0.0.4", "ovos-utils==0.0.34"],
-  "version": "0.0.1"
+  "version": "0.0.3"
 }

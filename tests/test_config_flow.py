@@ -2,10 +2,11 @@
 from unittest.mock import patch
 
 import aiohttp
-
-from homeassistant import config_entries, data_entry_flow
+from homeassistant import config_entries
+from homeassistant import data_entry_flow
 from homeassistant.components.ovos.const import DOMAIN
-from homeassistant.const import CONF_PORT, CONF_URL
+from homeassistant.const import CONF_PORT
+from homeassistant.const import CONF_URL
 from homeassistant.core import HomeAssistant
 
 FIXTURE_USER_INPUT = {CONF_URL: "http://localhost", CONF_PORT: 8181}
@@ -13,7 +14,9 @@ FIXTURE_USER_INPUT = {CONF_URL: "http://localhost", CONF_PORT: 8181}
 
 async def test_show_form(hass: HomeAssistant) -> None:
     """Test that the setup form is served."""
-    result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
 
     assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "user"
@@ -21,7 +24,9 @@ async def test_show_form(hass: HomeAssistant) -> None:
 
 async def test_connection_error(hass: HomeAssistant) -> None:
     """Test we show user form on connection error."""
-    result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
 
     assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "user"
@@ -42,7 +47,9 @@ async def test_connection_error(hass: HomeAssistant) -> None:
 
 async def test_full_flow_implementation(hass: HomeAssistant) -> None:
     """Test registering an integration and finishing flow works."""
-    result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
 
     assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "user"
