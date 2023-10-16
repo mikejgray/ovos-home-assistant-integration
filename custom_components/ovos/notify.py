@@ -47,3 +47,7 @@ class OvosNotificationService(BaseNotificationService):
             )
         except ValueError:
             _LOGGER.log(level=1, msg="Error from OVOS messagebus", exc_info=True)
+
+    def authenticate(self):
+        """Authenticate with OVOS/Neon instance."""
+        return True

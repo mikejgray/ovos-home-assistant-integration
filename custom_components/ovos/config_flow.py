@@ -18,6 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("host"): str,
+        vol.Required("name"): str,
         vol.Optional("ovos_port", default=8181): int,
     }
 )
@@ -46,27 +47,34 @@ class OvosConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    async def async_step_user(
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize."""
+        self.config_entry = config_entry
+        self.options = dict(config_entry.options) if config_entry else {}
+
+    async def async_step_device(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Handle the initial step."""
         errors: dict[str, str] = {}
         if user_input is not None:
             try:
-                info = await validate_input(self.hass, user_input)
+                await validate_input(self.hass, user_input)
+                await self.async_set_unique_id(user_input["name"])
+                self._abort_if_unique_id_configured()
+                self.options.update(user_input)
+                # return self.async_create_entry(title="", data=self.options)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
             except InvalidAuth:
                 errors["base"] = "invalid_auth"
-            except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
+            except Exception as err:  # pylint: disable=broad-except
+                _LOGGER.exception("Unexpected exception:\n\n%s", err)
                 errors["base"] = "unknown"
-            else:
-                return self.async_create_entry(title=info["title"], data=user_input)
-
-        return self.async_show_form(
-            step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
-        )
+        else:
+            return self.async_show_form(
+                step_id="device", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
+            )
 
 
 class CannotConnect(HomeAssistantError):
