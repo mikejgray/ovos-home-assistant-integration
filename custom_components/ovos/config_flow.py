@@ -63,13 +63,13 @@ class OvosConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await self.async_set_unique_id(user_input["name"])
                 self._abort_if_unique_id_configured()
                 self.options.update(user_input)
-                return self.async_create_entry(title="", data=self.options)
+                # return self.async_create_entry(title="", data=self.options)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
             except InvalidAuth:
                 errors["base"] = "invalid_auth"
-            except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
+            except Exception as err:  # pylint: disable=broad-except
+                _LOGGER.exception("Unexpected exception:\n\n%s", err)
                 errors["base"] = "unknown"
         else:
             return self.async_show_form(
