@@ -53,6 +53,12 @@ notify:
 
 Then call `notify.mark2` with a message you'd like the OVOS/Neon.AI Voice Assistant to speak.
 
+## Available services
+
+- notify
+- mute_mic
+- unmute_mic
+
 ## Contributions are welcome!
 
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)

@@ -7,6 +7,6 @@
   "integration_type": "device",
   "iot_class": "assumed_state",
   "loggers": ["ovos-bus-client"],
-  "requirements": ["ovos-bus-client==0.0.4", "ovos-utils==0.0.34"],
-  "version": "0.0.3"
+  "requirements": ["ovos-bus-client==0.0.5", "ovos-utils==0.0.35"],
+  "version": "0.0.4"
 }
